@@ -1,7 +1,11 @@
+
 "use client"
 
-import { useEffect, useState } from "react"
-import { Card } from "@/components/ui/card"
+import { useEffect, useState, useRef } from "react"
+import { useToast } from "../hooks/use-toast"
+import { Button } from "./ui/button"
+import { CheckIcon, CopyIcon } from "lucide-react"
+import { LinkedinIcon } from "lucide-react"
 
 interface Ephemeris {
   date: string
@@ -10,282 +14,324 @@ interface Ephemeris {
   description: string
   category: string
   impact: "low" | "medium" | "high"
+  source?: 'ai' | 'local'
 }
 
-// Base de datos de efemérides de programación
+// Base de datos de efemérides de respaldo (Fallback)
 const ephemerisDatabase: Ephemeris[] = [
+  // SEPTIEMBRE
   {
-    date: "1945-02-14",
-    year: 1945,
-    title: "ENIAC - Primera computadora electrónica",
-    description:
-      "Se presenta públicamente ENIAC (Electronic Numerical Integrator and Computer), considerada la primera computadora electrónica de propósito general. Pesaba 30 toneladas y ocupaba 167 m².",
-    category: "HARDWARE",
-    impact: "high",
-  },
-  {
-    date: "1957-10-04",
-    year: 1957,
-    title: "Lanzamiento del Sputnik 1",
-    description:
-      "La Unión Soviética lanza el primer satélite artificial, marcando el inicio de la era espacial y acelerando el desarrollo de tecnologías de computación.",
-    category: "SPACE_TECH",
-    impact: "high",
-  },
-  {
-    date: "1969-10-29",
+    date: "1969-09-02",
     year: 1969,
-    title: "Primer mensaje ARPANET",
-    description:
-      'Se envía el primer mensaje a través de ARPANET entre UCLA y Stanford. El mensaje era "LO" (intento fallido de escribir "LOGIN"). Nacimiento de Internet.',
-    category: "NETWORKING",
-    impact: "high",
+    title: "Primera conexión de ARPANET",
+    description: "El 2 de septiembre de 1969 se estableció la primera conexión de ARPANET entre UCLA y el Stanford Research Institute, marcando el nacimiento de lo que eventualmente se convertiría en Internet.",
+    category: "Network",
+    impact: "high"
   },
   {
-    date: "1971-03-15",
-    year: 1971,
-    title: "Primer microprocesador Intel 4004",
-    description:
-      "Intel lanza el 4004, el primer microprocesador comercial del mundo. Contenía 2,300 transistores y operaba a 740 kHz.",
-    category: "HARDWARE",
-    impact: "high",
-  },
-  {
-    date: "1972-01-01",
-    year: 1972,
-    title: "Lenguaje C - Dennis Ritchie",
-    description:
-      "Dennis Ritchie en Bell Labs completa el desarrollo del lenguaje de programación C, que se convertiría en uno de los más influyentes de la historia.",
-    category: "LANGUAGES",
-    impact: "high",
-  },
-  {
-    date: "1975-04-04",
-    year: 1975,
-    title: "Fundación de Microsoft",
-    description:
-      "Bill Gates y Paul Allen fundan Microsoft. Su primer producto fue un intérprete de BASIC para el Altair 8800.",
-    category: "COMPANIES",
-    impact: "high",
-  },
-  {
-    date: "1976-04-01",
-    year: 1976,
-    title: "Fundación de Apple",
-    description:
-      "Steve Jobs, Steve Wozniak y Ronald Wayne fundan Apple Computer Company en el garaje de Jobs en Los Altos, California.",
-    category: "COMPANIES",
-    impact: "high",
-  },
-  {
-    date: "1981-08-12",
-    year: 1981,
-    title: "IBM PC - Revolución personal",
-    description:
-      "IBM lanza su primera computadora personal, estableciendo el estándar para PCs compatibles y democratizando la computación.",
-    category: "HARDWARE",
-    impact: "high",
-  },
-  {
-    date: "1989-03-12",
-    year: 1989,
-    title: "World Wide Web - Tim Berners-Lee",
-    description:
-      "Tim Berners-Lee propone el sistema World Wide Web en el CERN, revolucionando la forma en que compartimos información.",
-    category: "WEB",
-    impact: "high",
-  },
-  {
-    date: "1991-08-25",
+    date: "1991-09-17",
     year: 1991,
-    title: "Linus Torvalds anuncia Linux",
-    description:
-      "Linus Torvalds anuncia en comp.os.minix el desarrollo de un sistema operativo libre que cambiaría el mundo del software.",
+    title: "Lanzamiento de Linux 0.01",
+    description: "Linus Torvalds lanzó la primera versión oficial de Linux (0.01) el 17 de septiembre de 1991, iniciando una revolución en el software de código abierto que transformaría la industria tecnológica.",
     category: "OS",
-    impact: "high",
-  },
-  {
-    date: "1995-05-23",
-    year: 1995,
-    title: "JavaScript - Brendan Eich",
-    description:
-      "Brendan Eich crea JavaScript en solo 10 días en Netscape. Se convertiría en el lenguaje de programación más usado del mundo.",
-    category: "LANGUAGES",
-    impact: "high",
+    impact: "high"
   },
   {
     date: "1998-09-04",
     year: 1998,
-    title: "Fundación de Google",
-    description:
-      "Larry Page y Sergey Brin fundan Google, revolucionando la búsqueda en Internet y el procesamiento de big data.",
-    category: "COMPANIES",
-    impact: "high",
+    title: "Fundación de Google Inc.",
+    description: "Larry Page y Sergey Brin fundaron Google Inc. el 4 de septiembre de 1998 en un garaje de Menlo Park, California. La empresa revolucionaría la forma en que buscamos información en Internet.",
+    category: "Company",
+    impact: "high"
   },
   {
-    date: "2004-02-04",
-    year: 2004,
-    title: "Lanzamiento de Facebook",
-    description:
-      'Mark Zuckerberg lanza "The Facebook" desde su dormitorio en Harvard, iniciando la era de las redes sociales modernas.',
-    category: "SOCIAL",
-    impact: "high",
-  },
-  {
-    date: "2007-01-09",
-    year: 2007,
-    title: "Steve Jobs presenta el iPhone",
-    description:
-      "Apple presenta el iPhone, redefiniendo los smartphones y creando el ecosistema de apps móviles que conocemos hoy.",
-    category: "MOBILE",
-    impact: "high",
-  },
-  {
-    date: "2008-09-02",
+    date: "2008-09-23",
     year: 2008,
-    title: "Google Chrome - Navegador web",
-    description:
-      "Google lanza Chrome, que se convertiría en el navegador web más usado del mundo gracias a su velocidad y simplicidad.",
-    category: "WEB",
-    impact: "medium",
+    title: "Lanzamiento de Android 1.0",
+    description: "Google lanzó Android 1.0 (Apple Pie) el 23 de septiembre de 2008 en el HTC Dream, iniciando la era de los smartphones Android que dominarían el mercado móvil.",
+    category: "OS",
+    impact: "high"
   },
+  {
+    date: "1983-09-27",
+    year: 1983,
+    title: "Richard Stallman anuncia el proyecto GNU",
+    description: "El 27 de septiembre de 1983, Richard Stallman anunció públicamente el inicio del proyecto GNU en el grupo de noticias net.unix-wizards, sentando las bases del movimiento de software libre y del ecosistema que culminaría en GNU/Linux.",
+    category: "OS",
+    impact: "high"
+  },
+  // ... (Se pueden agregar más aquí)
 ]
 
 export function EphemerisDisplay() {
-  const [todayEphemeris, setTodayEphemeris] = useState<Ephemeris | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [displayText, setDisplayText] = useState("")
-  const [showCursor, setShowCursor] = useState(true)
+  const { toast } = useToast()
+  const [copied, setCopied] = useState(false)
+  const [displayState, setDisplayState] = useState<'initial-loading' | 'show-button' | 'showing-content'>('initial-loading')
+  const [displayedText, setDisplayedText] = useState('')
+  const [ephemeris, setEphemeris] = useState<Ephemeris | null>(null)
+  const [isComplete, setIsComplete] = useState(false)
+  const contentRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    // Simular carga de datos
-    setTimeout(() => {
-      const today = new Date()
-      const todayMonthDay = `${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`
+  // Función para copiar el texto completo
+  const copyEphemerisText = async () => {
+    if (!ephemeris) return
+    const formattedDate = formatDate(ephemeris.date)
+    const title = "Efeméride del Día en la Historia de la Programación"
+    const text = `📅 ${formattedDate} \n\n${ephemeris.description} \n\n#ProgrammingHistory #Tech #Software`
+    const fullText = `${title} \n\n${text} `
+    try {
+      await navigator.clipboard.writeText(fullText)
+      setCopied(true)
+      toast({
+        title: "Texto copiado",
+        description: "El título y la efeméride se copiaron al portapapeles."
+      })
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      toast({
+        title: "Error al copiar",
+        description: "No se pudo copiar automáticamente. Copia manualmente la efeméride."
+      })
+    }
+  }
 
-      // Busca la efeméride comparando solo el mes y el día (MM-DD)
-      let ephemeris = ephemerisDatabase.find((e) => e.date.substring(5) === todayMonthDay)
+  // Formatea la fecha para mostrarla en español
+  const formatDate = (dateStr: string) => {
+    const [year, month, day] = dateStr.split('-')
+    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
+  }
 
-      // Si no hay efeméride para hoy, usar una aleatoria
-      if (!ephemeris) {
-        const randomIndex = Math.floor(Math.random() * ephemerisDatabase.length)
-        ephemeris = ephemerisDatabase[randomIndex]
-      }
-
-      setTodayEphemeris(ephemeris)
-      setIsLoading(false)
-    }, 1500)
-
-    // Cursor blinking
-    const cursorInterval = setInterval(() => setShowCursor((prev) => !prev), 500)
-    return () => clearInterval(cursorInterval)
-  }, [])
-
-  useEffect(() => {
-    if (!todayEphemeris || isLoading) return
-
-    const fullText = `> Ejecutando consulta_efemeride.py...\n> Conectando a base_datos_historia_programacion...\n> [OK] Conexión establecida\n> Buscando eventos para ${new Date().toLocaleDateString("es-ES")}...\n> [ENCONTRADO] Evento histórico relevante\n\n=== EFEMÉRIDE DE PROGRAMACIÓN ===\n\nFECHA: ${new Date(todayEphemeris.date).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" })}\nCATEGORÍA: ${todayEphemeris.category}\nIMPACTO: ${todayEphemeris.impact.toUpperCase()}\n\nTÍTULO: ${todayEphemeris.title}\n\nDESCRIPCIÓN:\n${todayEphemeris.description}\n\n> Consulta completada exitosamente\n> Presiona CTRL+C para salir`
-
+  // Efecto para la animación de escritura
+  const typeText = (text: string, onComplete: () => void) => {
     let index = 0
-    const typeInterval = setInterval(() => {
-      if (index < fullText.length) {
-        setDisplayText(fullText.slice(0, index + 1))
+    const chars: string[] = []
+
+    // Resetear estado
+    setDisplayedText('')
+    setIsComplete(false)
+
+    const interval = setInterval(() => {
+      if (index < text.length) {
+        chars.push(text[index])
+        setDisplayedText(chars.join(''))
+
+        if (contentRef.current) {
+          contentRef.current.style.height = `${contentRef.current.scrollHeight} px`
+        }
+
         index++
       } else {
-        clearInterval(typeInterval)
+        clearInterval(interval)
+        onComplete()
       }
-    }, 30)
+    }, 30) // Un poco más rápido
 
-    return () => clearInterval(typeInterval)
-  }, [todayEphemeris, isLoading])
-
-  const getImpactColor = (impact: string) => {
-    switch (impact) {
-      case "high":
-        return "text-red-400"
-      case "medium":
-        return "text-yellow-400"
-      case "low":
-        return "text-green-400"
-      default:
-        return "text-foreground"
-    }
+    return () => clearInterval(interval)
   }
 
-  const getCategoryIcon = (category: string) => {
-    const icons: Record<string, string> = {
-      HARDWARE: "🔧",
-      SOFTWARE: "💾",
-      LANGUAGES: "📝",
-      WEB: "🌐",
-      MOBILE: "📱",
-      COMPANIES: "🏢",
-      OS: "⚙️",
-      NETWORKING: "🔗",
-      SOCIAL: "👥",
-      SPACE_TECH: "🚀",
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.style.height = `${contentRef.current.scrollHeight} px`
     }
-    return icons[category] || "💻"
-  }
+  }, [displayedText])
 
-  if (isLoading) {
-    return (
-      <div className="mb-8">
-        <Card className="glass-terminal border-primary/30 p-6 pulse-glow">
-          <div className="modern-terminal-glow">
-            <div className="text-sm mb-4">
-              {"> Inicializando sistema..."}
-              <span className="terminal-cursor"></span>
-            </div>
-            <div className="text-sm mb-2">{"> Cargando módulos de historia..."}</div>
-            <div className="text-sm mb-2">{"> Sincronizando base de datos..."}</div>
-            <div className="text-sm text-accent">{"> [████████████████████████████████] 100%"}</div>
-          </div>
-        </Card>
-      </div>
-    )
+  useEffect(() => {
+    const loadEphemeris = async () => {
+      setDisplayedText('Conectando con Gemini AI para recuperar efeméride...')
+
+      try {
+        // Intentar obtener de la API
+        const response = await fetch('/api/ephemeris')
+
+        if (response.ok) {
+          const data = await response.json()
+          setEphemeris(data)
+          processEphemeris(data)
+        } else {
+          throw new Error('API failed')
+        }
+      } catch (error) {
+        console.warn('Falling back to local database', error)
+        // Fallback a base de datos local
+        const today = new Date()
+        const todayMonthDay = `${String(today.getMonth() + 1).padStart(2, "0")} -${String(today.getDate()).padStart(2, "0")} `
+
+        let todayEphemeris = ephemerisDatabase.find(
+          (e) => e.date.substring(5) === todayMonthDay
+        )
+
+        if (!todayEphemeris) {
+          const randomIndex = Math.floor(Math.random() * ephemerisDatabase.length)
+          todayEphemeris = ephemerisDatabase[randomIndex]
+        }
+
+        setEphemeris({ ...todayEphemeris, source: 'local' })
+        processEphemeris({ ...todayEphemeris, source: 'local' })
+      }
+    }
+
+    const processEphemeris = async (data: Ephemeris) => {
+      // Simular un pequeño delay para transición
+      await new Promise(resolve => setTimeout(resolve, 1000))
+
+      setDisplayState('show-button')
+      await new Promise(resolve => setTimeout(resolve, 500))
+
+      setDisplayState('showing-content')
+
+      const formattedDate = formatDate(data.date)
+      const sourceTag = data.source === 'ai' ? '[AI GENERATED]' : '[ARCHIVE]'
+      const fullContent = `${formattedDate} ${sourceTag}: \n\n${data.description} `
+
+      typeText(fullContent, () => setIsComplete(true))
+    }
+
+    loadEphemeris()
+  }, [])
+
+  // Función para compartir en LinkedIn
+  const [isSharing, setIsSharing] = useState(false)
+
+  const shareOnLinkedIn = async () => {
+    if (!ephemeris) return
+
+    setIsSharing(true)
+
+    try {
+      const formattedDate = formatDate(ephemeris.date)
+      const title = "Efeméride del Día en la Historia de la Programación"
+      const text = `📅 ${formattedDate} \n\n${ephemeris.description} \n\n#ProgrammingHistory #Tech #Software`
+      const fullText = `${title} \n\n${text} `
+      const url = window.location.href
+
+      try {
+        await navigator.clipboard.writeText(fullText)
+        toast({
+          title: "Texto copiado",
+          description: "El título y la efeméride se copiaron al portapapeles. ¡Pégalos en LinkedIn!"
+        })
+      } catch (err) {
+        toast({
+          title: "Error al copiar",
+          description: "No se pudo copiar automáticamente. Copia manualmente la efeméride."
+        })
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 800))
+
+      const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
+      const width = 600
+      const height = 600
+      const left = Math.round(window.innerWidth / 2 - width / 2)
+      const top = Math.round(window.innerHeight / 2 - height / 2)
+
+      window.open(
+        linkedInUrl,
+        'LinkedInShare',
+        `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,status=no,scrollbars=yes`
+      )
+    } finally {
+      setIsSharing(false)
+    }
   }
 
   return (
-    <div className="mb-8">
-      <Card className="glass-terminal border-primary/30 p-6 pulse-glow">
-        <div className="modern-terminal-glow">
-          <pre className="text-sm whitespace-pre-wrap font-mono leading-relaxed">
-            {displayText}
-            {showCursor && <span className="terminal-cursor"></span>}
-          </pre>
+    <div className="border border-green-300/50 rounded p-4 font-mono">
+      <div className="mb-4 flex justify-between items-center">
+        <div>
+          <span className="text-green-500">&lt;&gt;</span>
+          <span className="text-green-300 ml-2">EFEMÉRIDE DEL DÍA</span>
         </div>
-      </Card>
+        {ephemeris?.source === 'ai' && (
+          <span className="text-xs text-green-500/70 border border-green-500/30 px-2 py-0.5 rounded">
+            AI POWERED
+          </span>
+        )}
+      </div>
 
-      {todayEphemeris && !isLoading && (
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="glass-terminal border-accent/30 p-4">
-            <div className="text-center modern-terminal-glow">
-              <div className="text-2xl mb-2">{getCategoryIcon(todayEphemeris.category)}</div>
-              <div className="text-sm text-muted-foreground">CATEGORÍA</div>
-              <div className="text-accent font-bold">{todayEphemeris.category}</div>
-            </div>
-          </Card>
-
-          <Card className="glass-terminal border-accent/30 p-4">
-            <div className="text-center modern-terminal-glow">
-              <div className="text-2xl mb-2">📅</div>
-              <div className="text-sm text-muted-foreground">AÑO</div>
-              <div className="text-primary font-bold">{todayEphemeris.year}</div>
-            </div>
-          </Card>
-
-          <Card className="glass-terminal border-accent/30 p-4">
-            <div className="text-center modern-terminal-glow">
-              <div className="text-2xl mb-2">⚡</div>
-              <div className="text-sm text-muted-foreground">IMPACTO</div>
-              <div className={`font-bold ${getImpactColor(todayEphemeris.impact)}`}>
-                {todayEphemeris.impact.toUpperCase()}
-              </div>
-            </div>
-          </Card>
+      <div className="relative">
+        <div
+          ref={contentRef}
+          className="text-green-300 whitespace-pre-line mb-4 overflow-hidden transition-[height] duration-300 ease-out"
+          style={{
+            height: contentRef.current ? `${contentRef.current.scrollHeight}px` : 'auto',
+            minHeight: displayState === 'initial-loading' ? '24px' : displayState === 'show-button' ? '48px' : 'auto'
+          }}
+        >
+          {displayedText}
+          {!isComplete && (
+            <span className="animate-blink inline-block ml-1">▋</span>
+          )}
         </div>
-      )}
+
+        <div
+          className={`transition-all duration-300 ${displayState === 'show-button' || displayState === 'showing-content'
+            ? 'opacity-100 transform translate-y-0'
+            : 'opacity-0 transform -translate-y-4'
+            }`}
+        >
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-green-300 border-green-300 hover:bg-green-300/10 min-w-[120px] flex items-center"
+              onClick={copyEphemerisText}
+              disabled={copied}
+            >
+              {copied ? (
+                <>
+                  <CheckIcon className="w-4 h-4 mr-2 text-green-400" />
+                  Copiado
+                </>
+              ) : (
+                <>
+                  <CopyIcon className="w-4 h-4 mr-2" />
+                  Copiar texto
+                </>
+              )}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-green-300 border-green-300 hover:bg-green-300/10 min-w-[120px] flex items-center"
+              onClick={shareOnLinkedIn}
+              disabled={isSharing}
+            >
+              {isSharing ? (
+                <>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-green-300"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Preparando...
+                </>
+              ) : (
+                <>
+                  <LinkedinIcon className="w-4 h-4 mr-2" />
+                  Compartir
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
