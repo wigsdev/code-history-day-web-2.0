@@ -27,7 +27,7 @@
 - [x] Preparar documentación de despliegue <!-- id: 15 -->
 - [x] Verificar build de producción <!-- id: 16 -->
 - [x] Crear tag v1.0.0 <!-- id: 17 -->
-- [ ] Desplegar en Vercel <!-- id: 18 -->
+- [x] Desplegar en Vercel <!-- id: 18 -->
 
 ---
 
