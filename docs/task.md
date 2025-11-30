@@ -46,10 +46,10 @@
 - [ ] Implementar limpieza automática de entradas antiguas <!-- id: 26 -->
 
 ## 8. 📚 Historial de Efemérides
-- [ ] Crear endpoint `/api/ephemeris/history` <!-- id: 27 -->
-- [ ] Diseñar componente de historial en frontend <!-- id: 28 -->
-- [ ] Implementar paginación para historial <!-- id: 29 -->
-- [ ] Agregar filtros por categoría y fecha <!-- id: 30 -->
+- [x] Crear endpoint `/api/ephemeris/history` <!-- id: 27 -->
+- [x] Diseñar componente de historial en frontend <!-- id: 28 -->
+- [x] Implementar paginación para historial <!-- id: 29 -->
+- [x] Agregar filtros por categoría y fecha <!-- id: 30 -->
 
 ## 9. 🛡️ Rate Limiting
 - [ ] Implementar rate limiting con Upstash Redis <!-- id: 31 -->
