@@ -1,50 +1,30 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { AlarmClock } from "lucide-react"
 
 export function TerminalHeader() {
-  const [currentTime, setCurrentTime] = useState("")
-  const [showCursor, setShowCursor] = useState(true)
+  const [time, setTime] = useState("")
+  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date()
-      setCurrentTime(
-        now.toLocaleString("es-ES", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        }),
-      )
-    }
-
-    updateTime()
-    const interval = setInterval(updateTime, 1000)
-    const cursorInterval = setInterval(() => setShowCursor((prev) => !prev), 500)
-
-    return () => {
-      clearInterval(interval)
-      clearInterval(cursorInterval)
-    }
+    setIsClient(true)
+    const timer = setInterval(() => {
+      setTime(new Date().toLocaleTimeString("es-ES", { hour: '2-digit', minute: '2-digit', second: '2-digit' }))
+    }, 1000)
+    return () => clearInterval(timer)
   }, [])
 
   return (
-    <header className="mb-8 border-b border-primary/30 pb-4 glass-terminal rounded-lg p-6 pulse-glow">
-      <div className="modern-terminal-glow">
-        <h1 className="text-2xl md:text-3xl font-bold mb-2 typewriter">
-          {"> PROGRAMMING_EPHEMERIS.SH"}
-          {showCursor && <span className="terminal-cursor"></span>}
-        </h1>
-        <div className="text-sm text-muted-foreground mb-2">
-          {"System: Terminal v2.1.0 | User: developer@localhost"}
+    <header className="glass-terminal rounded-lg p-4 mb-8 border-b border-primary/30">
+      <div className="flex justify-between items-center modern-terminal-glow text-xl">
+        <div className="flex items-center gap-2">
+          <span className="animate-[blink_1s_step-end_infinite] text-accent font-bold">{'>_'}</span>
+          <span>code history day 2.0 v0.1.0</span>
         </div>
-        <div className="text-sm text-accent">
-          {"Current time: "}
-          {currentTime}
+        <div className="flex items-center gap-2">
+          <AlarmClock className="h-5 w-5" />
+          {isClient && <span>{time}</span>}
         </div>
       </div>
     </header>
