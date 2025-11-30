@@ -26,3 +26,34 @@
 ## 5. 🚀 Despliegue y Mantenimiento (Deployment & Maintenance)
 - [x] Preparar documentación de despliegue <!-- id: 15 -->
 - [x] Verificar build de producción <!-- id: 16 -->
+- [x] Crear tag v1.0.0 <!-- id: 17 -->
+- [ ] Desplegar en Vercel <!-- id: 18 -->
+
+---
+
+# 🎯 Roadmap v1.1.0: Database & Caching Implementation
+
+## 6. 🗄️ Integración de Base de Datos (Supabase)
+- [ ] Configurar proyecto en Supabase <!-- id: 19 -->
+- [ ] Crear tabla `ephemerides` con schema apropiado <!-- id: 20 -->
+- [ ] Instalar y configurar cliente de Supabase <!-- id: 21 -->
+- [ ] Implementar servicio de base de datos en `lib/supabase.ts` <!-- id: 22 -->
+
+## 7. ⚡ Sistema de Caché (24h TTL)
+- [ ] Implementar lógica de caché en API route <!-- id: 23 -->
+- [ ] Verificar efeméride existente antes de generar con IA <!-- id: 24 -->
+- [ ] Guardar respuesta de IA en base de datos <!-- id: 25 -->
+- [ ] Implementar limpieza automática de entradas antiguas <!-- id: 26 -->
+
+## 8. 📚 Historial de Efemérides
+- [ ] Crear endpoint `/api/ephemeris/history` <!-- id: 27 -->
+- [ ] Diseñar componente de historial en frontend <!-- id: 28 -->
+- [ ] Implementar paginación para historial <!-- id: 29 -->
+- [ ] Agregar filtros por categoría y fecha <!-- id: 30 -->
+
+## 9. 🛡️ Rate Limiting
+- [ ] Implementar rate limiting con Upstash Redis <!-- id: 31 -->
+- [ ] Configurar límites por IP (ej: 10 req/min) <!-- id: 32 -->
+- [ ] Agregar headers de rate limit en respuestas <!-- id: 33 -->
+- [ ] Crear página de error 429 personalizada <!-- id: 34 -->
+
