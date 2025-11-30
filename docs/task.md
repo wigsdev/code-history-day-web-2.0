@@ -34,15 +34,15 @@
 # 🎯 Roadmap v1.1.0: Database & Caching Implementation
 
 ## 6. 🗄️ Integración de Base de Datos (Supabase)
-- [ ] Configurar proyecto en Supabase <!-- id: 19 -->
-- [ ] Crear tabla `ephemerides` con schema apropiado <!-- id: 20 -->
-- [ ] Instalar y configurar cliente de Supabase <!-- id: 21 -->
-- [ ] Implementar servicio de base de datos en `lib/supabase.ts` <!-- id: 22 -->
+- [x] Configurar proyecto en Supabase <!-- id: 19 -->
+- [x] Crear tabla `ephemerides` con schema apropiado <!-- id: 20 -->
+- [x] Instalar y configurar cliente de Supabase <!-- id: 21 -->
+- [x] Implementar servicio de base de datos en `lib/supabase.ts` <!-- id: 22 -->
 
 ## 7. ⚡ Sistema de Caché (24h TTL)
-- [ ] Implementar lógica de caché en API route <!-- id: 23 -->
-- [ ] Verificar efeméride existente antes de generar con IA <!-- id: 24 -->
-- [ ] Guardar respuesta de IA en base de datos <!-- id: 25 -->
+- [x] Implementar lógica de caché en API route <!-- id: 23 -->
+- [x] Verificar efeméride existente antes de generar con IA <!-- id: 24 -->
+- [x] Guardar respuesta de IA en base de datos <!-- id: 25 -->
 - [ ] Implementar limpieza automática de entradas antiguas <!-- id: 26 -->
 
 ## 8. 📚 Historial de Efemérides
