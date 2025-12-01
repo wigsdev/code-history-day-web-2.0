@@ -344,7 +344,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para
 
 ## 👨‍💻 Autor
 
-**Wilmer Gulcochía** ([@mysterio-wil](https://github.com/mysterio-wil))
+**Wilmer Gulcochía** ([@wigsdev](https://github.com/wigsdev))
 
 Desarrollado con ❤️ desde Uchiza para el mundo
 
@@ -365,7 +365,7 @@ Desarrollado con ❤️ desde Uchiza para el mundo
 Si encuentras algún problema o tienes sugerencias:
 - 🐛 [Reportar un bug](https://github.com/wigsdev/code-history-day-web-2.0/issues)
 - 💡 [Solicitar una feature](https://github.com/wigsdev/code-history-day-web-2.0/issues)
-- 📧 Contacto: [GitHub Profile](https://github.com/mysterio-wil)
+- 📧 Contacto: [GitHub Profile](https://github.com/wigsdev)
 
 ---
 
