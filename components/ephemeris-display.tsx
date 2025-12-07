@@ -98,7 +98,9 @@ export function EphemerisDisplay() {
   // Formatea la fecha para mostrarla en español
   const formatDate = (dateStr: string) => {
     const [year, month, day] = dateStr.split('-')
-    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+    // Parsear como UTC para evitar problemas de zona horaria
+    // La API envía fechas en formato UTC (YYYY-MM-DD)
+    const date = new Date(Date.UTC(parseInt(year), parseInt(month) - 1, parseInt(day)))
     return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
   }
 
