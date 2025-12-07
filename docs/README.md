@@ -121,6 +121,15 @@ Guía completa de despliegue en Vercel.
   - Sistema de caché inteligente
   - Historial con paginación y filtros
 
+### v1.1.1 - Timezone Hotfix ✅
+- **Documentos clave**:
+  - `hotfix_v1.1.1.md`
+  - `task.md` (sección 10)
+- **Características**:
+  - Fix crítico de zona horaria
+  - Parseo correcto de fechas UTC
+  - Componente cliente para fecha actual
+
 ### v1.2.0 - Rate Limiting 🔜
 - **Documentos pendientes**:
   - `implementation_plan_v1.2.0.md` (por crear)
@@ -166,9 +175,10 @@ Guía completa de despliegue en Vercel.
 |---------|--------|-------|---------------|
 | v1.0.0 | ✅ Completado | Nov 2025 | `walkthrough.md` |
 | v1.1.0 | ✅ Completado | Nov 2025 | `walkthrough_v1.1.0.md` |
+| v1.1.1 | ✅ Hotfix | Dic 2025 | `hotfix_v1.1.1.md` |
 | v1.2.0 | 🔜 Planeado | TBD | Pendiente |
 
 ---
 
-**Última actualización**: 30 de Noviembre, 2025  
+**Última actualización**: 6 de Diciembre, 2025  
 **Mantenedor**: [@wigsdev](https://github.com/wigsdev)

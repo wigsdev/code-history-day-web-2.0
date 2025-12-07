@@ -57,3 +57,14 @@
 - [ ] Agregar headers de rate limit en respuestas <!-- id: 33 -->
 - [ ] Crear página de error 429 personalizada <!-- id: 34 -->
 
+---
+
+# 🔧 Hotfix v1.1.1: Timezone Bug Fix
+
+## 10. 🐛 Fix Crítico de Zona Horaria (6 dic 2025)
+- [x] Identificar problema de zona horaria (UTC vs Local) <!-- id: 35 -->
+- [x] Corregir parseo de fechas UTC en cliente (ephemeris-display.tsx) <!-- id: 36 -->
+- [x] Crear componente cliente para fecha actual (CurrentDateDisplay) <!-- id: 37 -->
+- [x] Verificar fix en producción <!-- id: 38 -->
+- [x] Actualizar documentación del fix <!-- id: 39 -->
+
