@@ -18,7 +18,11 @@ export async function GET() {
         console.log("API /api/ephemeris called");
 
         const today = new Date();
-        const dateStr = today.toISOString().split('T')[0]; // YYYY-MM-DD
+        // Usar fecha local en lugar de UTC para evitar problemas de zona horaria
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`; // YYYY-MM-DD en zona horaria local
 
         // PASO 1: Verificar si existe en Supabase (caché)
         console.log("Checking Supabase for existing ephemeris...");
