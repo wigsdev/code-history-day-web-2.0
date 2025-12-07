@@ -2,6 +2,7 @@ import { TerminalHeader } from "@/components/terminal-header"
 import { EphemerisDisplay } from "@/components/ephemeris-display"
 import { TerminalFooter } from "@/components/terminal-footer"
 import { TerminalInput } from "@/components/terminal-input"
+import { CurrentDateDisplay } from "@/components/current-date-display"
 
 export default function HomePage() {
   return (
@@ -30,25 +31,7 @@ export default function HomePage() {
             <span className="text-green-300">Sistema listo. Descubre la historia de la programación día a día.</span>
           </div>
         </div>
-        <div className="border border-green-300/50 rounded p-3 mb-8 font-mono flex items-center">
-          <svg
-            className="w-5 h-5 text-green-300 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-          <span className="text-green-300">
-            Fecha actual: {new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-          </span>
-        </div>
+        <CurrentDateDisplay />
         <EphemerisDisplay />
         <div className="mt-6">
           <TerminalInput />
