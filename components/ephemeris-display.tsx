@@ -155,7 +155,7 @@ export function EphemerisDisplay() {
         console.warn('Falling back to local database', error)
         // Fallback a base de datos local
         const today = new Date()
-        const todayMonthDay = `${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`
+        const todayMonthDay = `${String(today.getMonth() + 1).padStart(2, "0")} -${String(today.getDate()).padStart(2, "0")} `
 
         let todayEphemeris = ephemerisDatabase.find(
           (e) => e.date.substring(5) === todayMonthDay

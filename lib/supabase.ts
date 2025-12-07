@@ -31,11 +31,7 @@ export interface Ephemeris {
  */
 export async function getEphemerisForDate(date: Date): Promise<Ephemeris | null> {
     try {
-        // Usar fecha local en lugar de UTC para evitar problemas de zona horaria
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const dateStr = `${year}-${month}-${day}`; // YYYY-MM-DD en zona horaria local
+        const dateStr = date.toISOString().split('T')[0]; // YYYY-MM-DD
 
         const { data, error } = await supabaseAdmin
             .from('ephemerides')
@@ -130,11 +126,7 @@ export async function deleteOldEphemerides(daysToKeep: number = 365): Promise<nu
     try {
         const cutoffDate = new Date();
         cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
-        // Usar fecha local en lugar de UTC
-        const year = cutoffDate.getFullYear();
-        const month = String(cutoffDate.getMonth() + 1).padStart(2, '0');
-        const day = String(cutoffDate.getDate()).padStart(2, '0');
-        const cutoffDateStr = `${year}-${month}-${day}`;
+        const cutoffDateStr = cutoffDate.toISOString().split('T')[0];
 
         const { data, error } = await supabaseAdmin
             .from('ephemerides')
